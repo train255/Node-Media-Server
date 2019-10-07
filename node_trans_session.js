@@ -62,8 +62,11 @@ class NodeTransSession extends EventEmitter {
     Array.prototype.push.apply(argv, this.conf.acParam);
 	Array.prototype.push.apply(argv, ['-f', 'tee', '-map', '0:a?', '-map', '0:v?', mapStr]);
 	
-	if (this.conf.jpg)
-		argv = ['-i', inPath, '-vf', 'fps=3', `${ouPath}/output_%03d.jpg`];
+	if (this.conf.jpg) {
+		let fps = 3;
+		if (this.conf.jpg.fps) fps = this.conf.jpg.fps;
+		argv = ['-i', inPath, '-vf', `fps=${fps}`, `${ouPath}/output_%03d.jpg`];
+	}
 
 	argv = argv.filter((n) => { return n }); //去空
 	this.ffmpeg_exec = spawn(this.conf.ffmpeg, argv);
