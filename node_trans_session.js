@@ -10,6 +10,7 @@ const { spawn } = require('child_process');
 const dateFormat = require('dateformat');
 const mkdirp = require('mkdirp');
 const fs = require('fs');
+const uuid = require('uuid/v4');
 
 class NodeTransSession extends EventEmitter {
   constructor(conf) {
@@ -65,7 +66,7 @@ class NodeTransSession extends EventEmitter {
 	if (this.conf.jpg) {
 		let fps = 3;
 		if (this.conf.jpg.fps) fps = this.conf.jpg.fps;
-		argv = ['-i', inPath, '-vf', `fps=${fps}`, `${ouPath}/output_%03d.jpg`];
+		argv = ['-i', inPath, '-vf', `fps=${fps}`, `${ouPath}/${uuid()}_output_%03d.jpg`];
 	}
 
 	argv = argv.filter((n) => { return n }); //去空
